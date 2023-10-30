@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Calorie Calculator</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url('https://cdn.discordapp.com/attachments/1149247868163600404/1167497098137178173/60294.jpg?ex=654e5767&is=653be267&hm=ba57ad5cdb9f20368b5e1eb8b52c7e6356e0aa727a6fac3bfca7436384027539&');
+        background-size: cover;
+        /* ขนาดรูปภาพที่ปรับให้พอดี */
+        background-repeat: no-repeat;
+        /* ไม่ระบุซ้ำภาพ */
+        background-position: center center;
+        /* ตำแหน่งของรูปภาพในพื้นที่ */
+        color: white;
+    }
+
+    .container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(24, 1, 1, 0);
+        border-radius: 20px;
+        width: 500px;
+        height: 600px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 20px 0;
+    }
+
+    form {
+        margin: 20px 0;
+    }
+
+    input,
+    button {
+        margin: 5px;
+        padding: 5px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        font-size: 18px;
+        margin: 5px 0;
+    }
+
+    #totalCalories {
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <img width="200" height="200" src="https://media.discordapp.net/attachments/1149247868163600404/1167497097721950338/logo.png?ex=654e5767&is=653be267&hm=d78ce82d28a45b1a9510eda39e0c1a5b9a08a424b12cf200699c6ba9a73d5b86&=&width=650&height=650" alt="imagelogo">
+        <h1>Food Calorie Calculator</h1>
+        <form id="foodForm">
+            <input style="border-radius: 12px;" type="text" id="foodName" placeholder="ชื่ออาหาร">
+            <input style="border-radius: 12px;" type="number" id="calories" placeholder="จำนวนแคลเลอรี่">
+            <button style="border-radius: 12px;background-color: rgb(43, 188, 43);" type="button" onclick="addFood()">เพิ่ม</button>
+        </form>
+        <!-- ... (ตำแหน่งที่คุณต้องการแสดงรายการ) -->
+        <ul id="foodList"></ul>
+        <p id="totalCalories">Total Calories: 0</p>
+    </div>
+
+    <script>
+        // สร้างอาเรย์เพื่อเก็บรายการอาหาร
+        let foods = [];
+
+        // ฟังก์ชันเพิ่มอาหารลงในรายการ
+        function addFood() {
+            const foodName = document.getElementById("foodName").value;
+            const calories = parseInt(document.getElementById("calories").value);
+
+            if (foodName && !isNaN(calories)) {
+                // เพิ่มอาหารลงในรายการ
+                foods.push({ name: foodName, calories: calories });
+
+                // แสดงรายการอาหาร
+                displayFoodList();
+
+                // คำนวณแคลเลอรี่ทั้งหมด
+                calculateTotalCalories();
+
+                // ล้างช่องป้อนข้อมูล
+                document.getElementById("foodName").value = "";
+                document.getElementById("calories").value = "";
+            }
+        }
+
+        // ฟังก์ชันแสดงรายการอาหาร
+        // ...
+
+        // ฟังก์ชันแสดงรายการอาหาร
+        function displayFoodList() {
+            const foodList = document.getElementById("foodList");
+            foodList.innerHTML = "";
+            foods.forEach((food, index) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${food.name}: ${food.calories} แคลเลอรี่`;
+
+                // เพิ่มปุ่มลบและใส่รายการอาหารที่ต้องการลบ
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "ลบ";
+                deleteButton.onclick = () => deleteFood(index);
+                deleteButton.style = "background-color: red;";
+
+                listItem.appendChild(deleteButton);
+                foodList.appendChild(listItem);
+            });
+        }
+
+        // ฟังก์ชันลบรายการอาหาร
+        function deleteFood(index) {
+            foods.splice(index, 1);
+            displayFoodList();
+            calculateTotalCalories();
+        }
+
+        // ...
+
+
+        // ฟังก์ชันคำนวณแคลเลอรี่ทั้งหมด
+        function calculateTotalCalories() {
+            const totalCalories = foods.reduce((total, food) => total + food.calories, 0);
+            document.getElementById("totalCalories").textContent = `Total Calories: ${totalCalories} แคลเลอรี่`;
+        }
+
+    </script>
+</body>
+
+</html>
